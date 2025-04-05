@@ -1,0 +1,332 @@
+{
+	"info": {
+		"_postman_id": "a4ced612-1f54-4562-9f2a-61f3bcbc0b96",
+		"name": "Booking_API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21661368",
+		"_collection_link": "https://cloudy-satellite-981011.postman.co/workspace/Project_28_SEPT_24~662919b3-2e67-4255-834c-e0bad74ab60c/collection/21661368-a4ced612-1f54-4562-9f2a-61f3bcbc0b96?action=share&source=collection_link&creator=21661368"
+	},
+	"item": [
+		{
+			"name": "CreateToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// const respose = pm.response.json()\r",
+							"// console.log(\"token id is \"+ respose.token);\r",
+							"// pm.variables.set(\"token_id\",respose.token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}  
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\" : \"admin\",\n    \"password\" : \"password123\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/auth",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateRequest",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const bookingid = pm.response.json().bookingid;\r",
+							"pm.variables.set(\"booking_id\",bookingid);\r",
+							"console.log(bookingid);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\" : \"Suraj\",\n    \"lastname\" : \"Patil\",\n    \"totalprice\" : 111,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2018-01-01\",\n        \"checkout\" : \"2019-01-01\"\n    },\n    \"additionalneeds\" : \"Breakfast\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseURL}}/booking",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBookingById",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// //creat booking id \r",
+							"// pm.sendRequest({\r",
+							"//     method : 'POST',\r",
+							"//     url : pm.environment.get(\"baseURL\")+'/booking',\r",
+							"//     header: {\r",
+							"//         'Content-Type': 'application/json'\r",
+							"//     },\r",
+							"//     body:{\r",
+							"//         mode:'raw',\r",
+							"//         raw:JSON.stringify({\r",
+							"//             \"firstname\" : \"Suraj\",\r",
+							"//             \"lastname\" : \"Patil\",\r",
+							"//             \"totalprice\" : 111,\r",
+							"//             \"depositpaid\" : true,\r",
+							"//             \"bookingdates\" : {\r",
+							"//                 \"checkin\" : \"2018-01-01\",\r",
+							"//                 \"checkout\" : \"2019-01-01\"\r",
+							"//             },\r",
+							"//             \"additionalneeds\" : \"Breakfast\"\r",
+							"//         })\r",
+							"//     }\r",
+							"\r",
+							"// },function(error,response){\r",
+							"//     if(error){\r",
+							"//         console.log(error)\r",
+							"//     }else{\r",
+							"//         const responseBody = JSON.parse(response)\r",
+							"//         const bookingId = responseBody.bookingid\r",
+							"//         pm.variables.set(bookingId);\r",
+							"//     }\r",
+							"// })"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/booking/{{booking_id}}",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"booking",
+						"{{booking_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateBooking",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							" pm.sendRequest({\r",
+							"    method: 'POST',\r",
+							"    url: pm.environment.get(\"baseURL\")+'/auth',\r",
+							"    header:{\r",
+							"        'Content-Type':'application/json'\r",
+							"    },\r",
+							"    body:{\r",
+							"        mode : 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            'username' :  pm.environment.get(\"username\"),\r",
+							"            'password' :  pm.environment.get(\"password\")\r",
+							"\r",
+							"        })\r",
+							"    }\r",
+							"    \r",
+							"},function(error, response){\r",
+							"    \r",
+							"    if(error){\r",
+							"     console.log(error)\r",
+							"    }\r",
+							"    else{\r",
+							"        //JSON to JS OBJECT\r",
+							"       const responseBody =  JSON.parse(response.text());\r",
+							"       console.log(\"request body is \", responseBody)\r",
+							"\r",
+							"       const tokenId = responseBody.token;\r",
+							"       console.log('new token id :' + tokenId);\r",
+							"       pm.variables.set(\"new_token_id\",tokenId);\r",
+							"    }\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token={{new_token_id}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\" : \"James\",\n    \"lastname\" : \"Brown\",\n    \"totalprice\" : 200,\n    \"depositpaid\" : true,\n    \"bookingdates\" : {\n        \"checkin\" : \"2018-01-01\",\n        \"checkout\" : \"2019-01-01\"\n    },\n    \"additionalneeds\" : \"launch\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://restful-booker.herokuapp.com/booking/{{booking_id}}",
+					"protocol": "https",
+					"host": [
+						"restful-booker",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"booking",
+						"{{booking_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteBookingById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							" pm.sendRequest({\r",
+							"    method: 'POST',\r",
+							"    url: pm.environment.get(\"baseURL\")+'/auth',\r",
+							"    header:{\r",
+							"        'Content-Type':'application/json'\r",
+							"    },\r",
+							"    body:{\r",
+							"        mode : 'raw',\r",
+							"        raw: JSON.stringify({\r",
+							"            'username' :  pm.environment.get(\"username\"),\r",
+							"            'password' :  pm.environment.get(\"password\")\r",
+							"\r",
+							"        })\r",
+							"    }\r",
+							"    \r",
+							"},function(error, response){\r",
+							"    \r",
+							"    if(error){\r",
+							"     console.log(error)\r",
+							"    }\r",
+							"    else{\r",
+							"        //JSON to JS OBJECT\r",
+							"       const responseBody =  JSON.parse(response.text());\r",
+							"       console.log(\"request body is \", responseBody)\r",
+							"\r",
+							"       const tokenId = responseBody.token;\r",
+							"       console.log('new token id :' + tokenId);\r",
+							"       pm.variables.set(\"new_token_id\",tokenId);\r",
+							"    }\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "token={{new_token_id}}"
+					}
+				],
+				"url": {
+					"raw": "https://restful-booker.herokuapp.com/booking/{{booking_id}}",
+					"protocol": "https",
+					"host": [
+						"restful-booker",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"booking",
+						"{{booking_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
