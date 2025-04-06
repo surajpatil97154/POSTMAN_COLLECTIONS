@@ -9,6 +9,21 @@
 	"item": [
 		{
 			"name": "Login User-GetToken",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseBody = pm.response.json()\r",
+							"console.log(\"tokenId is : \"+responseBody.token)\r",
+							"pm.variables.set(\"tokenId\",responseBody.token);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [],
@@ -44,7 +59,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDg3MWE2NmY2ZDEzYzAwMTM3Y2IzMWEiLCJpYXQiOjE3Mzg4NTczOTZ9.HR13lBfn_olI56fq85l75TSgnv6T3ntloySK6y04G_Q",
+						"value": "Bearer {{tokenId}}",
 						"type": "text"
 					}
 				],
@@ -71,7 +86,7 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2E1NmY0NGZkYzQ5ZDAwMTNlOTBjNjAiLCJpYXQiOjE3Mzg4OTYwNDF9.zfmucUz6xES13RQ0zNRd59nXunOVc5V-1YkZOK6qMdo",
+						"value": "Bearer {{tokenId}}",
 						"type": "text"
 					}
 				],
@@ -91,40 +106,37 @@
 			"response": []
 		},
 		{
-			"name": "Get a user by id",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDg3MWE2NmY2ZDEzYzAwMTM3Y2IzMWEiLCJpYXQiOjE3Mzg4NTY0MDR9.dtb6tBriN-dq_pXEdDwSzk5MFwnPoolZ3wgxAlb0cz0",
-						"type": "text"
-					}
-				],
-				"url": {
-					"raw": "https://thinking-tester-contact-list.herokuapp.com/contacts/67a4d617168ad20013437fc0",
-					"protocol": "https",
-					"host": [
-						"thinking-tester-contact-list",
-						"herokuapp",
-						"com"
-					],
-					"path": [
-						"contacts",
-						"67a4d617168ad20013437fc0"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Create a Contact",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const responseBody = pm.response.json()\r",
+							"console.log(\"responseBody._id: \"+ responseBody._id);\r",
+							"pm.variables.set(\"contactId\",responseBody._id)"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"console.log(\"tokenId is :\" +pm.variables.get(\"tokenId\"))"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2E1NmY0NGZkYzQ5ZDAwMTNlOTBjNjAiLCJpYXQiOjE3Mzg4OTYwNDF9.zfmucUz6xES13RQ0zNRd59nXunOVc5V-1YkZOK6qMdo",
+						"value": "Bearer {{tokenId}}",
 						"type": "text"
 					}
 				],
@@ -153,13 +165,40 @@
 			"response": []
 		},
 		{
+			"name": "Get a user by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{tokenId}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://thinking-tester-contact-list.herokuapp.com/contacts/{{contactId}}",
+					"protocol": "https",
+					"host": [
+						"thinking-tester-contact-list",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"contacts",
+						"{{contactId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Update a Contact",
 			"request": {
 				"method": "PUT",
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2N2E1NmY0NGZkYzQ5ZDAwMTNlOTBjNjAiLCJpYXQiOjE3Mzg4OTYwNDF9.zfmucUz6xES13RQ0zNRd59nXunOVc5V-1YkZOK6qMdo",
+						"value": "Bearer {{tokenId}}",
 						"type": "text"
 					}
 				],
@@ -173,7 +212,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://thinking-tester-contact-list.herokuapp.com/contacts/67a57460168ad20013438251",
+					"raw": "https://thinking-tester-contact-list.herokuapp.com/contacts/{{contactId}}",
 					"protocol": "https",
 					"host": [
 						"thinking-tester-contact-list",
@@ -182,7 +221,7 @@
 					],
 					"path": [
 						"contacts",
-						"67a57460168ad20013438251"
+						"{{contactId}}"
 					]
 				}
 			},
@@ -195,12 +234,12 @@
 				"header": [
 					{
 						"key": "Authorization",
-						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDg3MWE2NmY2ZDEzYzAwMTM3Y2IzMWEiLCJpYXQiOjE3Mzg4NTMxMzJ9.7HI9frrBqSBQ-nFtiXGva4gcF_c_Grw1V4VsgAqm_DQ",
+						"value": "Bearer {{tokenId}}",
 						"type": "text"
 					}
 				],
 				"url": {
-					"raw": "https://thinking-tester-contact-list.herokuapp.com/contacts/67a4d617168ad20013437fc0",
+					"raw": "https://thinking-tester-contact-list.herokuapp.com/contacts/{{contactId}}",
 					"protocol": "https",
 					"host": [
 						"thinking-tester-contact-list",
@@ -209,7 +248,7 @@
 					],
 					"path": [
 						"contacts",
-						"67a4d617168ad20013437fc0"
+						"{{contactId}}"
 					]
 				}
 			},
